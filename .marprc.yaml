@@ -1,7 +1,5 @@
 allowLocalFiles: true
 options:
   looseYAML: false
-  markdown:
-    breaks: false
 pdf: true
 html: true
