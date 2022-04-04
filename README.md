@@ -1,9 +1,11 @@
 ---
 marp: true
+paginate: true
 ---
 
-# Slide 1 <!-- fit -->
-
+# 深層学習
+## 系列データのためのネットワーク
+### 会津大学 コンピュータ理工学研究科 コンピュータ情報システム学専攻 髙橋輝
 ---
 
 ## This is an example slide deck.
