@@ -1,21 +1,94 @@
 ---
 marp: true
+header: 深層学習 系列データのためのネットワーク
+footer: "by @romitagari" 
 paginate: true
 ---
 
 # 深層学習
 ## 系列データのためのネットワーク
-### 会津大学 コンピュータ理工学研究科 コンピュータ情報システム学専攻 髙橋輝
+#### 会津大学 コンピュータ理工学研究科 コンピュータ情報システム学専攻 髙橋輝
 ---
 
-## This is an example slide deck.
+# 系列データ
+個々の要素が順序付きの集まり
+$$
+    \bf{x}^1, \bf{x}^2, \bf{x}^3, \cdots, \bf{x}^T
+$$
+として与えられるデータを系列データと呼ぶ
 
-See...
+#### 約束
+<!-- 
+BaseColor: #FF0088
+AccentColor: #22FF00
+-->
+- 要素の並びをインデックス$1, 2, 3,\cdots, T$で表し, $t$を時刻と呼ぶ.
+    - 時刻は物理的な時間と対応するとは<span style="color: #FF0088;">限らない</span>
+- 個々のデータが順序を持っている, つまり, 並びに意味を持っていればよい.
+---
 
-- [Marp](https://marp.app/)
-- [Marp CLI Action](https://github.com/KoharaKazuya/marp-cli-action)
+# 今回扱う問題
+ ### 1. テキスト to 多クラス (Text to Multi-class)
+- レストランの利用客の感想を3段階で評価.
+- 文を構成する各単語をベクトルで表現. (下に例示)
+    $\bf x\rm^1 = `They`, \bf x\rm^2=`have`, \cdots, \bf x\rm^{15} = `better`$
+- データの最小単位は一つの文$(\bf X_n \rm=(\bf x \rm^1, \bf x \rm^2, \cdots, \bf x \rm ^{T_n})).$
+- 単語数は自由なので, 系列長$T_n$も自由.
+
+---
+## 今回扱う問題
+### 2. 音声認識(Speech Recognition)
+- 発話を記録した時間信号から発話内容を推定する.
+- 前処理
+    - 信号は<span style="color: #FF0088">一定の周期で標本化され, 
+        量子化されたデジタルデータ</span>(=一般的な音声データ)
+    - 方法の例: $10ms$間隔で$25ms$幅の窓で切り出し, 周波数スペクトルの分布情報を取り出して, 特徴ベクトルの系列$(\bf x \rm^1, \bf x \rm^2, \cdots,)$を得る.
+- 入力に前処理を行ったデータを取り, 発話を構成する<span style="color: #ff0088">音素(phoneme)</span> or 
+<span style="color: #ff0088">発話内容を直接表す文字列</span>を推定する.
+### 1, 2共に, 出力は入力と異なる長さの系列を出力できる必要がある
+---
+
+# リカレントニューラルネットワーク　<!-- fit -->
 
 ---
 
-You can write and put Marp markdown files into this repository, then commit and push to GitHub.
-GitHub Actions workflow automatically generates slide deck (HTML and PDF) and publishes them on GitHub Pages.
+## 1. リカレントニューラルネットワーク(RNN)とはなんぞや？
+A. リカレントニューラルネットワーク(Recurrent Neural Network)とは, 
+<span style="color: #FF0088; padding:0 3pc 0 10pc;">内部に(有向)閉路を持つニューラルネットワーク</span> の総称である.
+
+- 例として,
+    - Elman Network
+    - Jordan Network
+    - Time Delay Network 
+    - Echo State Network など様々なものがあるが, 始めは単純なものを考える.
+
+---
+### シンプルなRNN
+
+<!-- TODO 図を挿入する-->
+上図のように,中間層のユニットの出力が自分自身に<span style="color: #FF0088">重み付きで</span>戻されるRNNを考える.
+この自分自身に戻ってくるパスを<span style="color: #FF0088">帰還路</span>と呼ぶ.
+
+この構造により, 中間層のユニットは, ひとつ前の状態を**覚える**ことができる.
+
+また, このユニットは, ひとつ前の出力と, 現在の入力の両方を考慮して状態が変わるため, 振る舞いを**動的に変化させる**ことができる. 
+
+この二つの特性により, この単純なRNNは系列データ中の"文脈"を捉えることが期待される.
+
+---
+
+
+
+---
+
+
+---
+
+
+---
+
+
+---
+
+
+---
