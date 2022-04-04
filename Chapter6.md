@@ -1,7 +1,7 @@
 ---
 marp: true
 header: 深層学習 系列データのためのネットワーク
-footer: "by @romitagari" 
+footer: "© 2020-2020, H.Takahashi" 
 paginate: true
 ---
 
