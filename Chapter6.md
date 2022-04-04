@@ -13,7 +13,7 @@ paginate: true
 # 系列データ
 個々の要素が順序付きの集まり
 $$
-    \bf{x}^1, \bf{x}^2, \bf{x}^3, \cdots, \bf{x}^T
+    \textbf{x}^1, \textbf{x}^2, \textbf{x}^3, \cdots, \textbf{x}^T
 $$
 として与えられるデータを系列データと呼ぶ
 
@@ -31,8 +31,8 @@ AccentColor: #22FF00
  ### 1. テキスト to 多クラス (Text to Multi-class)
 - レストランの利用客の感想を3段階で評価.
 - 文を構成する各単語をベクトルで表現. (下に例示)
-    $\bf x\rm^1 = `They`, \bf x\rm^2=`have`, \cdots, \bf x\rm^{15} = `better`$
-- データの最小単位は一つの文$(\bf X_n \rm=(\bf x \rm^1, \bf x \rm^2, \cdots, \bf x \rm ^{T_n})).$
+    $\textbf{x}^1 = `\texttt{They}`, \textbf{x}^2=`\texttt{have}`, \cdots, \textbf{x}^{15} = `\texttt{better}`$
+- データの最小単位は一つの文$(\textbf{X}_n =(\textbf{x}^1, \textbf{x}^2, \cdots, \textbf{x}^{T_n})).$
 - 単語数は自由なので, 系列長$T_n$も自由.
 
 ---
@@ -52,7 +52,7 @@ AccentColor: #22FF00
 
 ---
 
-## 1. リカレントニューラルネットワーク(RNN)とはなんぞや？
+# 1. リカレントニューラルネットワーク(RNN)とはなんぞや？
 A. リカレントニューラルネットワーク(Recurrent Neural Network)とは, 
 <span style="color: #FF0088; padding:0 3pc 0 10pc;">内部に(有向)閉路を持つニューラルネットワーク</span> の総称である.
 
@@ -62,11 +62,18 @@ A. リカレントニューラルネットワーク(Recurrent Neural Network)と
     - Time Delay Network 
     - Echo State Network など様々なものがあるが, 始めは単純なものを考える.
 
----
-### シンプルなRNN
 
-<!-- TODO 図を挿入する-->
-上図のように,中間層のユニットの出力が自分自身に<span style="color: #FF0088">重み付きで</span>戻されるRNNを考える.
+---
+
+<h2 style="position: absolute; top:80px; left:100px;">シンプルなRNN</h2>
+
+![bg 80%](./figure/Figure6.2(a).svg)
+![bg 80%](./figure/Figure6.2(b).svg)
+
+---
+
+
+前図のように,中間層のユニットの出力が自分自身に<span style="color: #FF0088">重み付きで</span>戻されるRNNを考える.
 この自分自身に戻ってくるパスを<span style="color: #FF0088">帰還路</span>と呼ぶ.
 
 この構造により, 中間層のユニットは, ひとつ前の状態を**覚える**ことができる.
@@ -77,6 +84,35 @@ A. リカレントニューラルネットワーク(Recurrent Neural Network)と
 
 ---
 
+RNNは各時刻tにつき1つの入力$\textbf{x}^t$を受け取り, 出力$\textbf{y}^t$を出力する.
+これは, <span style="color: #ff0088">入力と同じ長さ</span>の系列を出力することを意味する.
+
+過去に受け取った入力(理論上はすべて)が<span style="color: #ff0088">帰還路</span>を通して出力に影響を与える. 
+
+#### 順伝播型ネットワークとの比較
+
+| | 順伝播型ネットワーク | RNN |
+| --- |-------------------- | --- |
+| 帰還路 | なし | あり |
+| 写像 | $\textbf{x}^{t} \mapsto y$ | $\bf (x^0, x^1, \cdots, x^{t}) \mapsto y$ |
+
+このRNNは, 系列データについて, 順伝播型ネットワークと同じ<span style="color: #ff0088">万能性</span>を持つ.
+<!-- 十分な個数の隠れ層ユニットがあれば任意の系列から系列への写像を任意の精度で近似できる. -->
+---
+
+### RNNの順伝播
+
+系列$(\bf x^0, x^1, \cdots, x^{t})$を順に入力すると, 系列$(\bf y^0, y^1, \cdots, y^{t})$を出力する.
+$$
+    y : (\textbf{x}^0, \textbf{x}^1, \cdots, \textbf{x}^{t}) \mapsto (\textbf {y}^0, \textbf{y}^1, \cdots, \textbf{y}^{t})
+$$
+
+この計算の詳細を次のスライドで説明するが, その前に定義を行う.
+#### 定義
+- $\textbf{x}^t = (x_i^t)$ : ネットワークの入力
+- $\textbf{u}^t = (u_j^t)$, $\textbf{z}^t = (z_j^t)$ : 中間層ユニットの入出力
+- $\textbf{v}^t = (v_k^t)$, $\textbf{y}^t = (y_k^t)$ : 出力層ユニットの入出力
+- $\textbf{d}^t = (d_k^t)$: 目標とする出力
 
 
 ---
@@ -90,5 +126,6 @@ A. リカレントニューラルネットワーク(Recurrent Neural Network)と
 
 ---
 
-
----
+## References 
+1. https://qiita.com/mochimochidog/items/ca04bf3df7071041561a
+1. Hornik, K., Stinchcombe, M., & White, H. (1989). Multilayer feedforward networks are universal approximators. Neural networks, 2(5), 359-366.
