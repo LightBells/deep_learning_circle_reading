@@ -241,7 +241,7 @@ $\sigma$はロジスティックシグモイド関数. 定義そのままやね
  「のぞき穴(peephole)」結合と呼ばれることもある.
  性能向上への貢献が大きくないこともあり, 省略されることもある.([135]論文にはある種のゲートとのぞき穴結合を省略しても, 顕著な性能低下がないことが示されている)
 
-メモリユニットからの出力は, メモリセル出力に活性化関数を適用したものに出力ゲートを乗じたものなので, 形はほぼ同じで以下のようになる.
+メモリユニットからの出力は, メモリセル出力に活性化関数($tanh$)を適用したものに出力ゲートを乗じたものなので, 形はほぼ同じで以下のようになる.
 
 $$
 z_j^t = g^{O, t}_j f (s^t_j)
@@ -253,6 +253,127 @@ g_j^{O, t} = \sigma \left( \sum_j w^{O, in}_{ji}x^t_i + \sum_{j'} w^{O}_{jj'}z_{
 $$
 
 ---
+
+まとめると
+$$
+\textbf{u}^t = \textbf{W}^{in}\textbf{x}^t + \textbf{Wz}^{t-1}
+$$
+$$
+\textbf{s}^t = \textbf{g}^{F, t} \odot \textbf{s}^{t-1} + \textbf{g}^{I, t} \odot f(\textbf{u}^t)
+$$
+$$
+\textbf{z}^t = \textbf{g}^{O, t} \odot f(\textbf{s}^t)
+$$
+また, 各ゲートの出力は
+$$
+\textbf{g}^{F, t} = \sigma (\textbf{W}^{F, in}\textbf{x}^t + \textbf{W}^{F}\textbf{z}^{t-1})
+$$
+$$
+\textbf{g}^{I, t} = \sigma (\textbf{W}^{I, in}\textbf{x}^t + \textbf{W}^{I}\textbf{z}^{t-1})
+$$
+$$
+\textbf{g}^{O, t} = \sigma (\textbf{W}^{O, in}\textbf{x}^t + \textbf{W}^{O}\textbf{z}^{t-1})
+$$
+とあらわされる. 
+
+---
+
+### その他のゲート付き機構
+忘却ゲートが最も重要なゲートと考えられているので, それ以外のゲートを削減した構造が提案されている.
+##### 更新ゲートRNN(Update Gate RNN, UGRNN)
+忘却ゲートと入力ゲートを合わせたようなゲート, 更新ゲート(update gate)を採用し, 出力ゲートを除いたもの. LSTMでは忘却ゲートと入力ゲートは独立に制御されていたが, 更新ゲートでは排他的に制御するようになっている.
+$$
+\textbf{u}^t = \textbf{W}^{in}\textbf{x}^t + \textbf{Wz}^{t-1}
+$$
+$$
+\textbf{s}^t = \textbf{g}^{U, t} \odot \textbf{s}^{t-1} + (1-\textbf{g}^{U, t}) \odot f(\textbf{u}^t)
+$$
+$$
+\textbf{z}^t =  \textbf{s}^t
+$$
+$$
+\textbf{g}^{U, t} = \sigma (\textbf{W}^{U, in}\textbf{x}^t + \textbf{W}^{U}\textbf{z}^{t-1})
+$$
+
+---
+
+#### ゲート付きRNN(Gated Recurrent Unit, GRU)
+UGRNNを拡張したような形を持っている.
+帰還路に<span style="color: #ff0088">初期化ゲート</span>を追加しており, 過去の状態をどの程度伝播させるのか制御できるようになっている.
+$$
+\textbf{u}^t = \textbf{W}^{in}\textbf{x}^t + \textbf{W}\textbf{g}^{R, t} \odot \textbf{z}^{t-1}
+$$
+$$
+\textbf{s}^t = \textbf{g}^{U, t} \odot \textbf{s}^{t-1} + (1-\textbf{g}^{U, t}) \odot f(\textbf{u}^t)
+$$
+$$
+\textbf{z}^t =  \textbf{s}^t
+$$
+$$
+\textbf{g}^{U, t} = \sigma (\textbf{W}^{U, in}\textbf{x}^t + \textbf{W}^{U}\textbf{z}^{t-1})
+$$
+$$
+\textbf{g}^{R, t} = \sigma (\textbf{W}^{R, in}\textbf{x}^t + \textbf{W}^{R}\textbf{z}^{t-1})
+$$
+
+あと, <span style="color: #ff0088">交差RNN(Intersection RNN, +RNN)</span>とかいろいろあるけど, 論文\[138\]読んでない.
+
+---
+
+# 自己回帰モデル
+### 線形自己回帰モデル
+ある時系列データ$\textbf{x}$の時刻$t$における値$\textbf{x}^t$を, 今までのデータ$\textbf{x}^0,\cdots, \textbf{x}^{t-1}$の線形和とバイアス, ランダムノイズの和で表すことでモデル化したものを(線形)自己回帰モデルと呼び, 以下のように表される.
+$$
+\textbf{x}^t = \phi_0 + \sum^{t-1}_{i = t - \rho} \phi \textbf{x}^i + \epsilon^t
+$$
+
+これは例で, 線形自己回帰モデルの表現力はたかが知れているが, このようなモデルをRNNを使って作ることを考える.
+具体的には, $\textbf{y}(\textbf{x}^{t-1}) = \textbf{x}^t$なるモデル$\textbf{y}$を作る.
+
+---
+
+### RNNによる自己回帰モデル
+
+単語の系列としての文をRNNで学習させたもの $\to$ <span style="color: #ff0088">言語モデル</span> 
+#### モデルの生成
+英単語のうち, 代表的なものを$K$個選んで, $1$-of-$K$ Encodingしてベクトル$\textbf{x}$を作る.
+RNNはこのベクトルを入力にとり, また同じ$K$語を他クラス分類として予測できるように出力層を設計する. 出力$\textbf{y}$は, その要素$y_i$が$i$番目の語である予測確率を表す.
+このRNNが学習するタスクは, 1つの文の単語の系列を途中まで順に入力したときに, 次の単語を予測するタスク. 文の始まりと終わりは, `<start>`, `<end>`なる単語として扱う.
+このRNNの与える写像$(\textbf{x}^0, \cdots, \textbf{x}^{t-2}, \textbf{x}^{t-1}) \to \textbf{y}^{t-1} \sim \textbf{x}^t$は, 以下の条件付確率を表現すると考えられる.
+$$
+  p(\textbf{x}^t | \textbf{x}^{t-1}, \textbf{x}^{t-2}, \cdots,\textbf{x}^0)
+$$
+
+---
+
+#### 系列データ生成
+生成した言語モデルを利用して, 系列データを生成することができる.
+具体的には, 系列を途中まで外部から入力し, そのあとをRNNに自動生成させることができる.
+ただし, 出力を思い通りに制御するためには, 外部から追加情報を与える必要がある. 
+- 時刻$t=1$において, 入力の代わりに(もしくは追加で), RNNの内部情報$\textbf{z}^1$を与える.
+- $+\alpha$ 各時刻で外部からの追加入力を与え, 自己回帰本来の入力と統合する.
+
+各時刻でK個の単語のうち1つを選ぶ必要があるが, その選び方は複数ある.
+- $argmax_k (y^t_k)$を選ぶ
+- 出力された確率で単語を選ぶ
+- びーむさーちする.
+
+---
+
+#### 系列変換
+系列データを受け取って, 異なる長さの系列データを出力する問題を考える.
+このような問題にRNNを適用する方法の一つとして, <span style="color: #ff0088">系列データ変換(Sequence to Sequence, Seq2Seq)</span>がある.
+Seq2Seqは, エンコーダ, デコーダの2種類のRNNを持つ.
+
+###### エンコーダ
+エンコーダ側RNNには入力系列を与え, 与え終わった後の内部状態は, 入力系列をコンパクトに表現したものであると考える.
+
+###### デコーダ
+エンコーダRNNの内部状態を受け取り, 自己回帰RNNとして, 出力系列を生成する.
+
+---
+
+
 
 ---
 
