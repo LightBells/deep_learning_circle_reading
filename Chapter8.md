@@ -120,7 +120,7 @@ $$
 $- \log p(\mathcal{D} | \textbf{w})$を$\textbf{w}$について最小化することは, $\textbf{w}$の最尤推定と一致する.
 $- \log p(\textbf{w})$は, 正則化を行うものと考えることができる.
 
-ベイズ推定の立場から見れば, 重みの減衰項による正則化は, \textbf{w}の事前分布$p(\textbf{w})$に正規分布 $p(\textbf{w}) \varpropto \textrm{exp}(- \lambda/2 ||\textbf{w}||^2)+\textrm{const.}$を指定するのと同じ.
+ベイズ推定の立場から見れば, 重みの減衰項による正則化は, $\textbf{w}$の事前分布$p(\textbf{w})$に正規分布 $p(\textbf{w}) \varpropto \textrm{exp}(- \lambda/2 ||\textbf{w}||^2)+\textrm{const.}$を指定するのと同じ.
 $$
   \log p(\textbf{w}) = - \lambda/2 ||\textbf{w}||^2\ + \textrm{const.}
 $$
