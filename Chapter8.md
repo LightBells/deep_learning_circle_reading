@@ -99,9 +99,9 @@ $$
 ## 最尤推定との関係
 知識の欠如による不確かさは$p(\textbf{w} | \mathcal{D})$で捉えられるが, 具体的に求めるのは簡単ではない.
 今, "仮に", $p(\textbf{w} | \mathcal{D})$が手元にあったとする.
-このとき, 最低なパラメータ$\textbf{w}$を求めるためには, 
+このとき, 最適なパラメータ$\textbf{w}$を求めるためには, 
 $$
-\hat{\textbf{w}} = \rm{argmax}_\textbf{w} \rm{log} \hspace{1mm} p(y | \mathcal{D})
+\hat{\textbf{w}} = \rm{argmax}_\textbf{w} \rm{log} \hspace{1mm} p(\textbf{w} | \mathcal{D})
 $$
 のように$p(\textbf{w} | \mathcal{D})$を最大化すればよい.
 ベイズの定理により, 
