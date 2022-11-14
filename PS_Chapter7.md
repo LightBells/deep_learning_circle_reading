@@ -340,8 +340,66 @@ $$
 
 ---
 
-同時確率密度関数を求める。
+同時確率密度関数を求める.
 $$
 X_1 \sim N(0, 1), X_2 \sim N(0, 1) より\\
 f(x_1, x_2) = f(x_1)f(x_2) = \frac{1}{2\pi}\exp\left(-\frac{x_1^2 + x_2^2}{2}\right)である. 
+$$
+$Y_1, Y_2$の同時確率密度関数$g(y_1, y_2)$については, **変換**
+$$
+\phi : y_1 = a x_1 + b x_2, 
+\hspace{0.5cm}
+y_2 = c x_1 + d x_2
+$$
+を逆に解いて, 逆変換
+$$
+\psi : x_1 = \frac{1}{ad-bc}(dy_1 - by_2),
+\hspace{0.5cm}
+x_2 = \frac{1}{ad-bc}(-cy_1 + ay_2)
+$$
+を, $f(x_1, x_2)$に適用する.
+
+---
+
+Jacobianを計算すると, 
+$$
+|J| = \begin{vmatrix}
+\frac{\partial x_1}{\partial y_1} & \frac{\partial x_1}{\partial y_2} \\
+\frac{\partial x_2}{\partial y_1} & \frac{\partial x_2}{\partial y_2}
+\end{vmatrix} =
+\begin{vmatrix}
+\frac{d}{ad-bc} & \frac{-b}{ad-bc} \\
+\frac{-c}{ad-bc} & \frac{a}{ad-bc}
+\end{vmatrix} = \frac{1}{|ad-bc|}
+$$
+したがって、同時確率密度関数は
+$$
+g(y_1, y_2) = \frac{1}{2\pi|ad-bc|}\exp\left(-\frac{1}{2}\left(\frac{y_1^2}{a^2} + \frac{y_2^2}{c^2} - \frac{2y_1y_2}{ab}\right)\right)
+$$
+となる。
+……使いづらくね？？？
+
+---
+
+今まで得られた値を並べてみよう.
+$$
+\sigma_1^2 = a^2 + b^2 \\
+\sigma_2^2 = c^2 + d^2 \\
+\sigma_{12} = ac + bd \\
+\rho = \frac{ac + bd}{\sqrt{(a^2 + b^2)(c^2 + d^2)}} = \frac
+{\sigma_{12}}{\sigma_1\sigma_2}\\
+D = ad -bc
+$$
+
+こいつらのなかで、一つだけ仲間外れがいる。
+
+---
+
+<span style="color: #ff0088; font-size: 1.5em">Dですね！</span>
+
+というわけで、Dをがんばってほかの値を使って表してみる。
+$$
+(ac + bd)^2 + (ad - bc)^2 = (a^2 + b^2)(c^2 + d^2) \\
+\iff \sigma_{12}^2 + D^2 = \sigma_1^2\sigma_2^2\\
+D = \sqrt{\sigma_1^2\sigma_2^2 - \sigma_{12}^2} = \sigma_1\sigma_2\sqrt{1 - \rho^2}
 $$
