@@ -123,9 +123,9 @@ V(X + Y) = \mathbb{E}[(X + Y - \mathbb{E}[X + Y]) ^ 2] \\
         = \mathbb{E}[(X^2 + Y^2 + 2XY) -2(X\mathbb{E}[X] + X\mathbb{E}[Y]+Y\mathbb{E}[X] + Y\mathbb{E}[Y])\\
          +(\mathbb{E}[Y]^2 + \mathbb{E}[X]^2 + 2\mathbb{E}[X]\mathbb{E}[Y]) ] \\
         = \mathbb{E}[(X^2 + Y^2 -2X\mathbb{E}[X] - 2Y\mathbb{E}[Y]+ \mathbb{E}[Y]^2 + \mathbb{E}[X]^2) \\
-        - 2(XY - X\mathbb{E}[Y]-Y\mathbb{E}[X] + \mathbb{E}[X]\mathbb{E}[Y])  \\
-        = \mathbb{E}[X^2] - \mathbb{E}[X]^2 + \mathbb{E}[Y^2]- \mathbb{E}[Y]^2 - 2\mathbb[(X- \mathbb{E}[X])(Y- \mathbb{E}[Y])] \\\
-        = V(X) + V(Y) - 2\textrm{Cov}(X, Y)
+        + 2(XY - X\mathbb{E}[Y]-Y\mathbb{E}[X] + \mathbb{E}[X]\mathbb{E}[Y])  \\
+        = \mathbb{E}[X^2] - \mathbb{E}[X]^2 + \mathbb{E}[Y^2]- \mathbb{E}[Y]^2 + 2\mathbb[(X- \mathbb{E}[X])(Y- \mathbb{E}[Y])] \\\
+        = V(X) + V(Y) + 2\textrm{Cov}(X, Y)
 $$
 
 ……つかれた。
