@@ -295,6 +295,51 @@ $$
 
 ---
 
+# 独立な確率変数の和
+
+---
+
+
+## 分散の加法性
+$X, Y$が独立ならば, $Cov(X, Y) = 0$であるから、
+$$
+V(X+Y) = V(X) + V(Y)
+$$
+が成立する.
+(定義でわかると思うけど、共分散が0ならいいので, 独立は不当に強い条件)
+
+一般の互いに独立な有限個の確率変数$X_1, X_2, \cdots, X_n$についても, 
+$$
+V(X_1 + X_2 + \cdots + X_n) = V(X_1) + V(X_2) + \cdots + V(X_n)
+$$
+が言える.
+（定義と$\textrm{Cov}(X, Y) = \mathbb{E}[XY] - \mathbb{E}[X]\mathbb[Y]$から従う)
+
+---
+
+## 独立同分布の確率変数
+確率変数$X_1, X_2, \cdots, X_n$が, 同一の確率分布に従うとし、これらの期待値,　分散をそれぞれ$\mu, \sigma^2$とすると, 
+$$
+\mathbb{E}[X_1 + X_2 + \cdots + X_n] = \mathbb{E}[X_1] + \mathbb{E}[X_2] + \cdots + \mathbb{E}[X_n] = n \mu
+$$
+また, 互いに独立であることを仮定すると, 
+$$
+V(X_1 + X_2 + \cdots + X_n) = V(X_1) + V(X_2) + \cdots + V(X_n) = n \sigma^2
+$$
+が言える.
+
+---
+
+## 相加平均
+確率変数$X_1, X_2, \cdots, X_n$が, 同一の確率分布に従うとし、これらの期待値,　分散をそれぞれ$\mu, \sigma^2$とすると,
+$X_1, X_2, \cdots, X_n$の相加平均を
+$$
+\bar{X} = \frac{X_1 + X_2 + \cdots + X_n}{n}
+$$
+とおくと, 
+
+---
+
 # 多次元正規分布
 
 ---
@@ -370,11 +415,11 @@ $$
 \begin{vmatrix}
 \frac{d}{ad-bc} & \frac{-b}{ad-bc} \\
 \frac{-c}{ad-bc} & \frac{a}{ad-bc}
-\end{vmatrix} = \frac{1}{|ad-bc|}
+\end{vmatrix} = \frac{1}{|ad-bc|} = \frac{1}{|D|}
 $$
 したがって、同時確率密度関数は
 $$
-g(y_1, y_2) = \frac{1}{2\pi|ad-bc|}\exp\left(-\frac{1}{2}\left(\frac{y_1^2}{a^2} + \frac{y_2^2}{c^2} - \frac{2y_1y_2}{ab}\right)\right)
+g(y_1, y_2) = \frac{1}{2\pi|ad-bc|}\exp\left(-\frac{(dy_1 - by_2)^2 + (-cy_1 + ay_2)^2}{2(ad-bc)^2}\right)
 $$
 となる。
 ……使いづらくね？？？
@@ -403,3 +448,14 @@ $$
 \iff \sigma_{12}^2 + D^2 = \sigma_1^2\sigma_2^2\\
 D = \sqrt{\sigma_1^2\sigma_2^2 - \sigma_{12}^2} = \sigma_1\sigma_2\sqrt{1 - \rho^2}
 $$
+
+後はこいつらでいい感じにしてやると（力尽きた）
+$$
+g(y_1, y_2) = \frac{1}{2\pi\sigma_1\sigma_2\sqrt{1 - \rho^2}}\exp\left(-\frac{1}{2(1 - \rho^2)}\left(\frac{y_1^2}{\sigma^2_1}+\frac{2 \rho y_1 y_2}{\sigma_1 \sigma_2} + \frac{y_2^2}{\sigma_2^2}\right)\right)
+になる
+$$
+気になる人は自分で確かめてみてください。
+
+---
+
+
