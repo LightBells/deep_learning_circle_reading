@@ -4,11 +4,6 @@ on:
     branches:
       - main
 
-env:
-  SLACK_USERNAME: DocsDeployBot
-  SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-  SLACK_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
-
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -33,6 +28,9 @@ jobs:
           SLACK_TITLE: Deploy / Success
           SLACK_COLOR: good
           SLACK_MESSAGE: デプロイ完了しました🚀
+          SLACK_USERNAME: DocsDeployBot
+          SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          SLACK_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
 
       # 失敗
       - name: Slack Notification on Failure
@@ -42,3 +40,6 @@ jobs:
           SLACK_TITLE: Deploy / Failure
           SLACK_COLOR: danger
           SLACK_MESSAGE: デプロイ失敗しました😢
+          SLACK_USERNAME: DocsDeployBot
+          SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          SLACK_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
