@@ -22,24 +22,27 @@ jobs:
 
       # 成功
       - name: Slack Notification on Success
-        uses: rtCamp/action-slack-notify@v2
-        if: ${{ success() }}
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+             "username": "Docs Deploy Bot",
+             "text": "デプロイ成功しました",
+             "icon_emoji": ":gear:"
+            }
         env:
-          SLACK_TITLE: Deploy / Success
-          SLACK_COLOR: good
-          SLACK_MESSAGE: デプロイ完了しました🚀
-          SLACK_USERNAME: DocsDeployBot
-          SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-          SLACK_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
 
       # 失敗
       - name: Slack Notification on Failure
-        uses: rtCamp/action-slack-notify@v2
+        uses: slackapi/slack-github-action@v1.24.0
         if: ${{ failure() }}
+        with:
+          payload: |
+            {
+             "username": "Docs Deploy Bot",
+             "text": "デプロイ失敗しました",
+             "icon_emoji": ":gear:"
+            }
         env:
-          SLACK_TITLE: Deploy / Failure
-          SLACK_COLOR: danger
-          SLACK_MESSAGE: デプロイ失敗しました😢
-          SLACK_USERNAME: DocsDeployBot
-          SLACK_ICON: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-          SLACK_WEBHOOK: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK }}
